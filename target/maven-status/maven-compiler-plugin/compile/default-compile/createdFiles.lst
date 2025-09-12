@@ -1,0 +1,11 @@
+com\Ninja\E_Commerce\Entity\Product.class
+com\Ninja\E_Commerce\Entity\Review$ReviewBuilder.class
+com\Ninja\E_Commerce\Entity\Product$ProductBuilder.class
+com\Ninja\E_Commerce\ECommerceApplication.class
+com\Ninja\E_Commerce\Repo\psqlrepo.class
+com\Ninja\E_Commerce\Entity\Meta$MetaBuilder.class
+com\Ninja\E_Commerce\Entity\Review.class
+com\Ninja\E_Commerce\Entity\Dimensions.class
+com\Ninja\E_Commerce\Entity\Meta.class
+com\Ninja\E_Commerce\Health\Healthcheck.class
+com\Ninja\E_Commerce\Entity\Dimensions$DimensionsBuilder.class
