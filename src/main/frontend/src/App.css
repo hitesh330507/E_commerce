@@ -1,0 +1,50 @@
+.app {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: #4a90e2;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.desc {
+  font-size: 0.9em;
+  color: #444;
+}
+
+.discount {
+  color: red;
+  font-size: 0.85em;
+}
+
+.reviews {
+  margin-top: 10px;
+  padding: 5px;
+  border-top: 1px solid #ddd;
+}
+
+.review {
+  font-size: 0.85em;
+  margin: 5px 0;
+}

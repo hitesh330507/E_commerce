@@ -1,24 +1,32 @@
 package com.Ninja.E_Commerce.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Ninja.E_Commerce.Entity.Product;
 import com.Ninja.E_Commerce.service.db_check;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 
 @RestController
+@RequestMapping()
+@CrossOrigin(origins = "http://localhost:5173")
 public class Product_View {
     
     @Autowired
     private db_check db;
 
-    @GetMapping("/{id}")
-    public List<Product> getbyid(@PathVariable Long id) {
-        return db.getproductsbyid(id);
+    @GetMapping("/home")
+    public List<Product> getbyid() {
+        return db.getproductsbyid();
     }
     
 }
