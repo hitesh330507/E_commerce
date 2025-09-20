@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @RestController
@@ -26,7 +25,12 @@ public class Product_View {
 
     @GetMapping("/home")
     public List<Product> getbyid() {
-        return db.getproductsbyid();
+        return db.getallproducts();
     }
-    
+
+    @GetMapping("/product/{id}")
+    public List<Product>getbyid(@PathVariable Long id)
+    {
+        return db.getproductsbyid(id);
+    }
 }

@@ -15,9 +15,13 @@ public class db_check {
     @Autowired
     private psqlrepo repo;
 
-    public List<Product> getproductsbyid()
+    public List<Product> getallproducts()
     {
         return repo.findAll();
+    }
+    public List<Product> getproductsbyid(Long id)
+    {
+        return repo.findAllById(List.of(id));
     }
 
 }

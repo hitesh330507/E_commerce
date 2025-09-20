@@ -1,44 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
+import ProductPage from "./components/ProductPage.tsx";
+import Navbar from "./components/NavBar.tsx";
 
-interface Review {
-  id: number;
-  rating: number;
-  comment: string;
-  date: string;
-  reviewerName: string;
-}
-
-interface Product {
+interface ProductType {
   id: number;
   title: string;
   description: string;
-  category: string;
   price: number;
   discountPercentage: number;
   rating: number;
   stock: number;
-  brand: string | null;
-  sku: string;
-  weight: number;
-  warrantyInformation: string;
-  shippingInformation: string;
-  availabilityStatus: string;
-  returnPolicy: string;
-  minimumOrderQuantity: number;
   thumbnail: string;
-  tags: string[];
-  images: string[];
-  dimensions: { id: number; width: number; height: number; depth: number };
-  meta: { id: number; createdAt: string; updatedAt: string; barcode: string; qrCode: string };
-  reviews: Review[];
 }
 
 const App: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // ✅ Your backend URL with 100 JSON objects
   const API_URL = "http://localhost:8080/home";
 
   useEffect(() => {
@@ -46,7 +26,7 @@ const App: React.FC = () => {
       try {
         const res = await fetch(API_URL);
         if (!res.ok) throw new Error("Failed to fetch products");
-        const data: Product[] = await res.json();
+        const data: ProductType[] = await res.json();
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -58,48 +38,60 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="app">
-      <header>
-        <h1>🛒 Shopping App</h1>
-        <p>Total Products: {products.length}</p>
-      </header>
+    <Router>
+      {/* Navbar at the very top */}
+      <Navbar />
 
-      <main>
-        {loading ? (
-          <p>Loading products...</p>
-        ) : (
-          <div className="products">
-            {products.map((p) => (
-              <div key={p.id} className="card">
-                <img src={p.thumbnail} alt={p.title} />
-                <h3>{p.title}</h3>
-                <p className="desc">{p.description}</p>
-                <p>
-                  <b>${p.price}</b>{" "}
-                  <span className="discount">-{p.discountPercentage}%</span>
-                </p>
-                <p>⭐ {p.rating} | Stock: {p.stock}</p>
+      <div className="app">
+        <main className="main-content">
+          <Routes>
+            {/* Home Page */}
+            <Route
+              path="/"
+              element={
+                loading ? (
+                  <p className="loading">Loading products...</p>
+                ) : (
+                  <div className="products-grid">
+                    {products.map((p) => (
+                      <Link
+                        to={`/product/${p.id}`}
+                        key={p.id}
+                        className="card-link"
+                      >
+                        <div className="card">
+                          <img src={p.thumbnail} alt={p.title} />
+                          <div className="card-body">
+                            <h3>{p.title}</h3>
+                            <p className="desc">{p.description}</p>
+                            <p className="price">
+                              <b>${p.price}</b>{" "}
+                              <span className="discount">
+                                -{p.discountPercentage}%
+                              </span>
+                            </p>
+                            <p className="rating-stock">
+                              ⭐ {p.rating} | Stock: {p.stock}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )
+              }
+            />
 
-                {/* Reviews */}
-                <div className="reviews">
-                  <h4>Reviews:</h4>
-                  {p.reviews && p.reviews.length > 0 ? (
-                    p.reviews.map((r) => (
-                      <div key={r.id} className="review">
-                        <p><b>{r.reviewerName}</b> ({r.rating}⭐)</p>
-                        <p>{r.comment}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No reviews yet.</p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
-    </div>
+            {/* Product Details Page */}
+            <Route path="/product/:id" element={<ProductPage />} />
+          </Routes>
+        </main>
+
+        <footer className="footer">
+          <p>© 2025 Shopping App. All rights reserved.</p>
+        </footer>
+      </div>
+    </Router>
   );
 };
 
