@@ -24,4 +24,13 @@ public class db_check {
         return repo.findAllById(List.of(id));
     }
 
+    public List<Product>getproductbyproductname(String name)
+    {
+        return repo.findByTitleContainingIgnoreCase(name);
+    }
+
+    public List<Product> getproductByCategory(String category)
+    {
+        return repo.findByCategory(category);
+    }
 }

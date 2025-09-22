@@ -15,10 +15,6 @@ public interface psqlrepo extends JpaRepository<Product, Long>{
 
     // Find by category
     List<Product> findByCategory(String category);
-
-    // Find by price range
-    List<Product> findByPriceBetween(Double min, Double max);
-    
 }
    
 

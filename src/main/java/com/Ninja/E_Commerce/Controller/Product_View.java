@@ -33,4 +33,17 @@ public class Product_View {
     {
         return db.getproductsbyid(id);
     }
+
+    @GetMapping("/search/{name}")
+    public List<Product>getbyname(@PathVariable String name)
+    {
+        List<Product> productList=db.getproductbyproductname(name);
+
+        if(productList.isEmpty())
+        return db.getproductByCategory(name);
+
+        return productList;
+    }
+
+   
 }
