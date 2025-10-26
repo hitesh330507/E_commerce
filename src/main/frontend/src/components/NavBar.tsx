@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 interface Review {
@@ -56,6 +56,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onSearchResults }) => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [suggestions, setSuggestions] = useState<ProductType[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -171,6 +172,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchResults }) => {
     inputRef.current?.focus();
   };
 
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  const username = typeof window !== 'undefined' ? localStorage.getItem('username') : null;
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    navigate('/');
+  };
+
   return (
     <nav className="navbar">
       {/* Logo */}
@@ -256,7 +265,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchResults }) => {
           </div>
         )}
       </div>
-
+      
       {/* Language */}
       <div className="language">
         <div className="flag">🇺🇸</div>
@@ -265,11 +274,16 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchResults }) => {
       </div>
 
       {/* Account */}
-      <div className="account">
-        <span className="greeting">Hello, Sign in</span>
-        <span className="account-lists">Account & Lists</span>
-        <span className="dropdown-arrow">▼</span>
-      </div>
+      {token ? (
+        <button className="account" onClick={handleLogout} style={{ background: 'transparent', border: 0, color: 'white', cursor: 'pointer' }}>
+          Hello, {username || 'User'} (Sign out)
+        </button>
+      ) : (
+        <Link to="/login" className="account">
+          <span className="returns">Hello, sign in</span>
+          <span className="orders-text">Account & Lists</span>
+        </Link>
+      )}
 
       {/* Orders */}
       <div className="orders">

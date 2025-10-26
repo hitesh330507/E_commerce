@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import ProductPage from "./components/ProductPage.tsx";
 import Navbar from "./components/NavBar.tsx";
+import Login from "./components/Login.tsx";
+import Cart from "./components/Cart.tsx";
+import Register from "./components/Register.tsx";
 
 interface Review {
   id: number;
@@ -232,6 +235,9 @@ const App: React.FC = () => {
             />
 
             <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </main>
 

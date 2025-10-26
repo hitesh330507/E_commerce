@@ -1,7 +1,6 @@
 package com.Ninja.E_Commerce.Controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +39,9 @@ public class Product_View {
         List<Product> productList=db.getproductbyproductname(name);
 
         if(productList.isEmpty())
-        return db.getproductByCategory(name);
+          return db.getproductByCategory(name);
 
-        return productList;
+        return productList;     
     }
 
    

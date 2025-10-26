@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./Product.css";
 
 interface Review {
@@ -53,8 +53,35 @@ interface ProductType {
 
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<ProductType | null>(null);
   const [loading, setLoading] = useState(true);
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+  const addToCart = async () => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    try {
+      const res = await fetch('http://localhost:8080/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ productId: Number(id), qty: 1 })
+      });
+      if (res.status === 401) {
+        navigate('/login');
+        return;
+      }
+      if (!res.ok) throw new Error('Failed to add to cart');
+      // Optionally navigate to cart or show toast; stay on page for now
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -110,7 +137,7 @@ const ProductPage: React.FC = () => {
         <p><b>Status:</b> {product.availabilityStatus}</p>
 
         <button className="buy-btn">Buy Now</button>
-        <button className="cart-btn">Add to Cart</button>
+        <button className="cart-btn" onClick={addToCart}>Add to Cart</button>
 
         {/* Reviews Section */}
         <div className="reviews">
